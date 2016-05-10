@@ -27,6 +27,13 @@ app.get('/', function (req, res) {
 
 var bodyParser = require('body-parser');
 
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get('/posted', function (request, response) {
+	response.render("search", {
+	});
+});
+
 app.post('/posted', function (request, response) {
 	console.log("post request received");
 	console.log(request.body);
