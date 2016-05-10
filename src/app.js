@@ -3,6 +3,8 @@ var fs = require('fs');
 
 var app = express();
 
+//// Here I execute the code needed for part 0
+
 app.set('views', './src/views');
 app.set('view engine', 'jade');
 
@@ -21,8 +23,19 @@ app.get('/', function (req, res) {
 });
 
 
+//// Here I execute the code needed for part 1
+
+var bodyParser = require('body-parser');
+
+app.post('/posted', function (request, response) {
+	console.log("post request received");
+	console.log(request.body);
+
+	response.send('data received: ' + JSON.stringify(request.body) + '\n');
+});
 
 
+///// Here I tell the port to listen
 
 
 var server = app.listen(3000, function () {
