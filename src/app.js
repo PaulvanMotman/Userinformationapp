@@ -3,20 +3,18 @@ var fs = require('fs');
 
 var app = express();
 
+var reading = require ('../manualmodules/readfile');
+
+
 //// Here I execute the code needed for part 0
 
 app.set('views', './src/views');
 app.set('view engine', 'jade');
 
 app.get('/', function (req, res) {
-	fs.readFile('./users.json', function (error, data) {
-		if (error) {
-			console.log(error);
-		}
-
-		var parsedData = JSON.parse(data);
-    	console.log(parsedData);
-    	res.render("index", {
+	reading.readFile('./users.json', function(parsedData) {
+		console.log(parsedData)
+		res.render("index", {
       		users: parsedData
 		});
 	});
@@ -36,10 +34,22 @@ app.get('/posted', function (request, response) {
 
 app.post('/posted', function (request, response) {
 	console.log("post request received");
-	console.log(request.body);
+	var searchname = request.body.users[0].toUpperCase() + request.body.users.slice(1);
+	console.log(searchname);
 
-	response.send('data received: ' + JSON.stringify(request.body) + '\n');
+	for (var i = 0; i < parsedData.length; i++) {
+		if (searchname == parsedData[i].firstname) {
+		response.send("match!!!")
+		}
+		else {
+		response.send("nothing found")
+		}
+	}
 });
+
+
+
+
 
 
 ///// Here I tell the port to listen

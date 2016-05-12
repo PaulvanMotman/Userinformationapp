@@ -5,10 +5,8 @@ html
         h1= title
         form(name="add-estimation", method="post")
             div.input
-                span.label Title
-                input(type="text", name="title")
-            div.input
-                span.label Description
-                textarea(name="description", cols="40", rows="5")
+                span.label Find users here:  
+                input(type="text", name="users")
             div.actions
-                input(type="submit", value="add")
+                input(type="submit", value="search")
+        a(href="http://localhost:3000") Landing page

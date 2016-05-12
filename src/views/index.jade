@@ -4,6 +4,5 @@ html
 	body
 		h2 All users:
 		each user in users
-			h3= user.firstname
-			h3= user.lastname
-			h3= user.email
+			h3= user.firstname + "; " + user.lastname + "; " + user.email 
+		a(href="http://localhost:3000/posted") Search page
