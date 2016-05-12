@@ -35,7 +35,7 @@ app.get('/search-user', function (request, response) {
 app.post('/searchresult', function (request, response) {
 	var username = request.body.users[0].toUpperCase() + request.body.users.slice(1);
 
-	console.log("post request received" + username);
+	console.log("post request received: " + username);
 
 	reading.readFile('./users.json', function(parsedData) {
 		var storeUser = []
@@ -55,10 +55,20 @@ app.post('/searchresult', function (request, response) {
 
 ///// Here I execute the code needed for part 2
 
-// app.get('/add-users', function (request, response) {
-// 	response.render("add", {
-// 	});
-// });
+app.get('/add-user', function (request, response) {
+	response.render("add", {
+	});
+});
+
+app.post('/add-user', function (request, response) {
+	var newuser = request.body
+	var userList = fs.readFileSync('./users.json')
+	var users = JSON.parse (userList)
+	users.push (newuser)
+	var userJSON = JSON.stringify (users)
+	fs.writeFileSync ('./users.json', userJSON)
+	response.redirect ('/')
+});
 
 
 
