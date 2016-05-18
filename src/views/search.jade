@@ -1,12 +1,22 @@
 doctype html
 html
     head
+        script(src="https://code.jquery.com/jquery-2.2.0.min.js")
+        script(src="js/custom.js")
     body
         h1= title
         form(name="add-estimation", action="/searchresult", method="post")
             div.input
                 span.label Find users here:  
-                input(type="text", name="users")
+                input#magic(type="text", name="users", list="results", autocomplete="off")
+                datalist#results
             div.actions
                 input(type="submit", value="search")
         a(href="http://localhost:3000") Landing page
+
+
+
+
+
+
+
