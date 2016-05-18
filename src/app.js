@@ -5,6 +5,9 @@ var app = express();
 
 var reading = require ('../manualmodules/readfile');
 
+/// We need this to acces the javascript (static) file
+app.use(express.static('./resources/'));
+
 
 //// Here I execute the code needed for part 0
 
@@ -32,23 +35,29 @@ app.get('/search-user', function (request, response) {
 	});
 });
 
+
+/// Here I create the API for the ajax form
+
 app.post('/searchresult', function (request, response) {
 	var username = request.body.users[0].toUpperCase() + request.body.users.slice(1);
 
 	console.log("post request received: " + username);
+	var storeUser = []
+	var ajax = request.body.ajax
 
 	reading.readFile('./users.json', function(parsedData) {
-		var storeUser = []
 		for (var i = 0; i < parsedData.length; i++) {
-			if (username == parsedData[i].firstname || username == parsedData[i].lastname) {
-				storeUser.push(parsedData[i].firstname, parsedData[i].lastname, parsedData[i].email)
+			if (parsedData[i].firstname.indexOf(username) > -1 || parsedData[i].lastname.indexOf(username) > -1 || (parsedData[i].firstname + " " + parsedData[i].lastname).indexOf(username) > -1 || (parsedData[i].lastname + " " + parsedData[i].firstname).indexOf(username) > -1) {
+				storeUser.push(parsedData[i])
 			}
 		};
-		if (storeUser.length !== 0) {
-			response.send("Firstname: " + storeUser[0].toString() + "<br>" + "Lastname: " + storeUser[1].toString() + "<br>" + "Email: " + storeUser[2].toString())
+		if (!ajax) {
+			response.render('searchresult', {
+				storeUser: storeUser
+			})
 		}
 		else {
-			response.send("To bad, try again!")
+			response.send(storeUser)
 		}
 	});
 });
@@ -62,6 +71,7 @@ app.get('/add-user', function (request, response) {
 
 app.post('/add-user', function (request, response) {
 	var newuser = request.body
+	console.log(newuser)
 	var userList = fs.readFileSync('./users.json')
 	var users = JSON.parse (userList)
 	users.push (newuser)
@@ -78,4 +88,9 @@ app.post('/add-user', function (request, response) {
 var server = app.listen(3000, function () {
 	console.log('Example app listening on port: ' + server.address().port);
 });
+
+
+
+
+///
 
