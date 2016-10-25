@@ -30,9 +30,11 @@ $(document).ready(function () {
 					console.log(data)
 				})
 			}
+			// After 0,3 seconds canFireRequest is set to true
 			setTimeout(function() {
     			canFireRequest = true
 			}, 300);
 		}
 	})
 })
+
